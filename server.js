@@ -41,6 +41,8 @@ app.get("/products",async(req,res)=>{
     }
 })
 
+
+
 app.get("/products/:id",async(req,res)=>{
     try{
         let key=req.url;
