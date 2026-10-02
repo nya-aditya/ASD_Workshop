@@ -1,14 +1,17 @@
 const db = require('../database/db')
 
+// saare products fetch karne ka logic
 async function getAllProducts() {
     return await db.readData()
 }
 
+// specific product ID find karne ka logic
 async function getProductById(id) {
     const products = await db.readData()
     return products.find((item) => item.id === Number(id))
 }
 
+// naya product add karne ka logic
 async function createProduct(productData) {
     const products = await db.readData()
     const newId = products.length > 0 ? Math.max(...products.map(p => p.id)) + 1 : 1
@@ -22,6 +25,7 @@ async function createProduct(productData) {
     return newProduct
 }
 
+// product details update karne ka logic
 async function updateProduct(id, updateData) {
     const products = await db.readData()
     const index = products.findIndex((item) => item.id === Number(id))
@@ -32,13 +36,14 @@ async function updateProduct(id, updateData) {
     products[index] = {
         ...products[index],
         ...updateData,
-        id: Number(id) // keep id consistent
+        id: Number(id)
     }
 
     await db.writeData(products)
     return products[index]
 }
 
+// product delete karne ka logic
 async function deleteProduct(id) {
     const products = await db.readData()
     const index = products.findIndex((item) => item.id === Number(id))

@@ -1,6 +1,7 @@
 const productService = require('../services/product.service')
 const { invalidateCache } = require('../middleware/cache.middleware')
 
+// saare products fetch karne ke liye
 async function getProducts(req, res) {
     try {
         const products = await productService.getAllProducts()
@@ -10,6 +11,7 @@ async function getProducts(req, res) {
     }
 }
 
+// specific product ID se fetch karne ke liye
 async function getProductById(req, res) {
     try {
         const { id } = req.params
@@ -23,10 +25,11 @@ async function getProductById(req, res) {
     }
 }
 
+// naya product create karne ke liye
 async function createProduct(req, res) {
     try {
         const newProduct = await productService.createProduct(req.body)
-        // Invalidate cache since stored data changed
+        // naya product create hua toh purana cache khali karo
         invalidateCache()
         return res.status(201).json(newProduct)
     } catch (err) {
@@ -34,6 +37,7 @@ async function createProduct(req, res) {
     }
 }
 
+// product ko update karne ke liye
 async function updateProduct(req, res) {
     try {
         const { id } = req.params
@@ -41,7 +45,7 @@ async function updateProduct(req, res) {
         if (!updated) {
             return res.status(404).json({ message: 'Product not found' })
         }
-        // Invalidate cache since stored data changed
+        // product update hua toh purana cache khali karo
         invalidateCache()
         return res.json(updated)
     } catch (err) {
@@ -49,6 +53,7 @@ async function updateProduct(req, res) {
     }
 }
 
+// product delete karne ke liye
 async function deleteProduct(req, res) {
     try {
         const { id } = req.params
@@ -56,7 +61,7 @@ async function deleteProduct(req, res) {
         if (!deleted) {
             return res.status(404).json({ message: 'Product not found' })
         }
-        // Invalidate cache since stored data changed
+        // product delete hua toh purana cache khali karo
         invalidateCache()
         return res.json({ message: 'Product deleted successfully' })
     } catch (err) {
